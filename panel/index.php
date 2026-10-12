@@ -24,7 +24,13 @@ try {
 
 try {
     $pendingPay = db_count($pdo, "SELECT COUNT(*) FROM Payment_report WHERE payment_Status='waiting'");
-    $txToday = db_count($pdo, "SELECT COUNT(*) FROM Payment_report WHERE time > ?", [strtotime('today')]);
+    $txToday = db_count($pdo,"SELECT COUNT(*) FROM Payment_report WHERE time >= ? AND time < ?",
+[
+date('Y/m/d 00:00:00'),
+date('Y/m/d 00:00:00', strtotime('+1 day'))
+]
+);
+    
 } catch (Exception $e) {
 }
 
